@@ -1,27 +1,28 @@
 <template>
   <div id="app">
+    <div class="container">
+      <header>
+        <h1 class='title'>iTunes Catalog</h1>
+        <span class="show-fav" v-on:click="showFav">My Favorites</span>
+      </header>
 
-    <header>
-      <h1 class='title'>iTunes Catalog</h1>
-      <span class="show-fav" v-on:click="showFav">My Favorites</span>
-    </header>
+      <input v-model="term" placeholder="Search..." v-on:keyup.enter="getData" >
 
-    <input v-model="term" placeholder="Search..." v-on:keyup.enter="getData" >
+      <div v-if="error" class="error">
+        {{ error }}
+      </div>
 
-    <div v-if="error" class="error">
-      {{ error }}
+      <div v-if="loading" class="results">
+        loading...
+      </div>
+
+      <Results v-else
+        :items="items"
+        :favs="favs"
+        :toggleFav="toggleFav"
+      />
+      <Favorites :favs="favs" :removeFav="removeFav" />
     </div>
-
-    <div v-if="loading" class="results">
-      loading...
-    </div>
-
-    <Results v-else
-      :items="items"
-      :favs="favs"
-      :toggleFav="toggleFav"
-    />
-    <Favorites :favs="favs" :removeFav="removeFav" />
   </div>
 </template>
 
@@ -73,6 +74,7 @@ export default {
     },
     toggleFav(event, id, name, url, artwork, genre) {
       let element = event.target;
+      element = element.closest('.love');
       element.classList.toggle('on');
 
       if(element.classList.contains('on')) {
@@ -124,6 +126,14 @@ export default {
   text-align: center;
   color: #2c3e50;
 }
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+a {
+  text-decoration: none;
+}
 
 header {
   height: 60px;
@@ -138,7 +148,16 @@ header {
 .show-fav {
   position: absolute;
   right: 10px;
-  top: 10px;
+  top: 0px;
+  cursor: pointer;
+}
+
+input {
+  padding: 10px;
+  border: 0;
+  border-bottom: 2px solid #333;
+  width: 100%;
+  font-size: 20px;
 }
 
 </style>

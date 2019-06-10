@@ -2,7 +2,7 @@
   <div>
     <section class="results">
       <div class="results__kind" v-for="kind in Object.keys(items)" :key="kind">
-        <h2>{{kind}}</h2>
+        <h2 class="kind">{{kind}}</h2>
         <ul class="list">
           <li :id="'id-' + item.id" v-for="item in items[kind]" class="list__item" :key="item.id">
             <div>
@@ -14,7 +14,9 @@
             <div>
               Genre: <span class="item-genre">{{item.genre}}</span>
             </div>
-            <span :class="isFav(item.id) ? 'love on' : 'love'" @click="toggleFav($event, item.id, item.name, item.url, item.artwork, item.genre)">Love</span>
+            <span :class="isFav(item.id) ? 'love on' : 'love'" @click="toggleFav($event, item.id, item.name, item.url, item.artwork, item.genre)" >
+              <Icon name="heart"/>
+            </span>
           </li>
         </ul>
       </div>
@@ -25,9 +27,14 @@
 </template>
 
 <script>
+import 'vue-awesome/icons';
+import Icon from 'vue-awesome/components/Icon';
 
 export default {
   name: "Movies",
+  components: {
+    Icon,
+  },
   props: {
     toggleFav: Function,
     items: Object,
@@ -46,14 +53,24 @@ export default {
 <style scoped>
 .list {
   margin: 1rem;
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  grid-column-gap: 15px;
+  grid-row-gap: 15px;
+  justify-items: center;
   list-style: none;
   padding: 0;
 }
 
+.kind {
+  margin-top: 50px;
+}
+
 .list__item {
   width: 200px;
+  box-shadow: 0px 0px 30px 0px #ccc;
+  margin: 5px;
+  padding: 10px;
 }
 
 .movies-list__directed-by {

@@ -1,7 +1,9 @@
 <template>
   <div class="fav">
     <h2>My Favorites</h2>
-    <span class="fav__close" @click="hideFav">X</span>
+    <span class="fav__close" @click="hideFav">
+      <Icon name="times" scale="2"/>
+    </span>
     <ul class="fav-list">
       <li v-for="item in favs" class="fav-list__item" :key="item.id">
         <div>
@@ -13,7 +15,9 @@
         <div>
           Genre: <span class="item-genre">{{item.genre}}</span>
         </div>
-        <span class="fav-list__remove" @click="removeFav(item.id)">Remove</span>
+        <span class="fav-list__remove" @click="removeFav(item.id)">
+          <Icon name="regular/trash-alt"/>
+        </span>
       </li>
     </ul>
 
@@ -21,8 +25,14 @@
 </template>
 
 <script>
+import 'vue-awesome/icons';
+import Icon from 'vue-awesome/components/Icon';
+
 export default {
   name: "Favorites",
+  components: {
+    Icon,
+  },
   props: {
     favs: Array,
     removeFav: Function,
@@ -43,18 +53,28 @@ export default {
   position: fixed;
   top: 0;
   right: -500px;
-  background: #999;
+  background: #eee;
   overflow: scroll;
+}
+.my-favorites {
+  cursor: pointer;
 }
 .fav__close {
   position: absolute;
   top: 10px;
   right: 10px;
   padding: 5px;
+  cursor: pointer;
 }
 .fav-list {
   list-style: none;
   padding: 0;
+}
+.fav-list__item {
+  box-shadow: 0px 0px 30px 0px #ccc;
+  margin: 0 10px 20px;
+  padding: 10px;
+  background: #fff;
 }
 .fav-list__remove {
   cursor: pointer;
