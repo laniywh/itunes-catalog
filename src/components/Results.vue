@@ -1,7 +1,10 @@
 <template>
   <div>
     <section class="results">
-      <div class="results__kind" v-for="kind in Object.keys(items)" :key="kind">
+      <div v-if="Object.keys(items).length === 0">
+        Nothing found.
+      </div>
+      <div v-else class="results__kind" v-for="kind in Object.keys(items)" :key="kind">
         <h2 class="kind">{{kind}}</h2>
         <ul class="list">
           <li :id="'id-' + item.id" v-for="item in items[kind]" class="list__item" :key="item.id">
