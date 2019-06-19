@@ -20,6 +20,7 @@
         :items="items"
         :favs="favs"
         :toggleFav="toggleFav"
+        :nothingFound="nothingFound"
       />
       <Favorites :favs="favs" :removeFav="removeFav" />
     </div>
@@ -40,6 +41,7 @@ export default {
       loading: false,
       items: {},
       error: '',
+      nothingFound: false,
     }
   },
   components: {
@@ -50,6 +52,7 @@ export default {
     // Fetches results when the component is created.
     getData() {
       this.loading = true;
+      this.nothingFound = false;
       this.errors = null;
       axios.get(`https://thawing-falls-75528.herokuapp.com/api/${this.term}`, {
       })
@@ -57,6 +60,11 @@ export default {
         // JSON responses are automatically parsed.
         this.items = response.data;
         this.loading = false;
+        if(Object.keys(this.items).length > 0) {
+          this.nothingFound = false;
+        } else {
+          this.nothingFound = true;
+        }
       })
       .catch(e => {
         this.error = e;

@@ -1,7 +1,7 @@
 <template>
   <div>
     <section class="results">
-      <div v-if="Object.keys(items).length === 0">
+      <div v-if="nothingFound">
         Nothing found.
       </div>
       <div v-else class="results__kind" v-for="kind in Object.keys(items)" :key="kind">
@@ -42,6 +42,7 @@ export default {
     toggleFav: Function,
     items: Object,
     favs: Array,
+    nothingFound: Boolean,
   },
   methods: {
     isFav(id) {
